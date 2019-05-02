@@ -1,7 +1,10 @@
 # daum map api study
 
-모든 예제는 http://localhost:8080 으로 실행시켜야한다.
+## 예제 실행 방법
+
+모든 예제는 http://localhost:8080 으로 실행시켜야한다.  
 웹서버는 다음과 같이 실행시킨다.
+  
 ```bash
 npm run http
 ```

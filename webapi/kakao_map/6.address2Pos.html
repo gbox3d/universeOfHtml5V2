@@ -9,6 +9,7 @@
 
 <div id="map" style="width:500px;height:400px;"></div>
 <div name="output" ></div>
+<div name="search" > <input  >  <button> 찾기 </button></div>
 
 <script>
 
@@ -64,6 +65,29 @@
           }
         }
       )
+
+      document.querySelector('[name="search"] button').addEventListener('click',()=> {
+
+        let _addr = document.querySelector('[name="search"] input').value
+
+        geocoder.addressSearch(_addr, function(result, status) {
+
+            // 정상적으로 검색이 완료됐으면
+            if (status === daum.maps.services.Status.OK) {
+
+              console.log(result)
+
+            }
+            else {
+              console.log('err : ' , status)
+            }
+          }
+        )
+
+
+
+      })
+
     },
     extra : "&libraries=services"
   })
