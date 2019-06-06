@@ -12,7 +12,7 @@ result = oneTwoThree.map((v)=> {
   return v+1
 })
 
-console.log(result)
+console.log(result) //2,3,4
 
 result = oneTwoThree.map((v)=> {
   if(v%2) return '짝수'
@@ -22,4 +22,4 @@ result = oneTwoThree.map((v)=> {
 
 })
 
-console.log(result)
+console.log(result) //[ '짝수', '홀수', '짝수' ]

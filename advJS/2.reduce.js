@@ -41,28 +41,34 @@ console.log(result)
 
 
 let seqs = [
-  ()=> {
+  (resolve)=> {
     console.log('p1 start')
+    setTimeout(resolve, 2000);
 
   },
-  ()=> {
+  (resolve)=> {
     console.log('p2 start')
+    setTimeout(resolve, 1500);
 
   },
-  ()=> {
+  (resolve)=> {
     console.log('p3 start')
+    setTimeout(resolve, 500);
 
+  },
+  (resolve)=> {
+    console.log('complete')
+    resolve()
   }
+
 ]
 
-const promiseFactory = (cb) => {
-  return new Promise((resolve, reject) => {
-    cb()
-    setTimeout(resolve, 1000);
-  });
-};
-
 seqs.reduce((acc,cur)=> {
-  return acc.then(() => promiseFactory(cur));
+  return acc.then(() => {
+    return new Promise((resolve, reject) => {
+      cur(resolve)
+    });
+
+  });
 
 },Promise.resolve())
