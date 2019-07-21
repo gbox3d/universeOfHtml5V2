@@ -34,13 +34,12 @@ const readlineInterface = require('readline').createInterface({
 
     setTimeout(()=> {
       console.log('step3')
-      resolve();
+      resolve('from step3');
     },500)
 
   } ))
-  .then(()=> {
-    console.log('done');
-
+  .then(_=> {
+    console.log('comsole',_);
   })
   .catch((_)=> {
     console.log('error catched ',_)

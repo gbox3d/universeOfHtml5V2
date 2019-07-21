@@ -68,7 +68,7 @@ let seqs = [
 seqs.reduce((acc,cur)=> {
   return acc.then(() => {
     return new Promise((resolve, reject) => {
-      cur(resolve)
+      cur(resolve,reject)
     });
 
   });
