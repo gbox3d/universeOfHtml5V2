@@ -31,3 +31,9 @@ else {
  */
 testCheck.callback && testCheck.callback('back')
 testCheck.callfront && testCheck.callfront('front')
+
+//널값일경우 {} 로 대신할경우
+let some
+let test = some || {}
+
+console.log(test)
