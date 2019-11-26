@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>file dialog box</title>
+
+</head>
+<body>
+
+<div id="filereader">
+
+    <p>use fileReader</p>
+    <input type="file" >
+    <textarea></textarea>
+
+</div>
+
+<div id="fetch">
+
+    <p>use fetch</p>
+    <input type="file" >
+    <textarea></textarea>
+
+</div>
+
+<div id="image">
+
+    <p>use image tag</p>
+    <input type="file" >
+    <textarea></textarea>
+
+</div>
+
+
+<script>
+
+    /*
+    클라이언트 웹에서는 바로 경로를 써주지못하고 blob형식의 데이터를 받아볼수있는 가상 주소로 파일경로를 변환하여 넣어준다.
+    (blob://xxx.xxx.xx 형식의 주소)
+     */
+
+    document.querySelector('#filereader input').addEventListener('change',(evt)=> {
+
+        let _textArea = evt.target.parentNode.querySelector('textarea');
+        console.log(evt.target)
+
+        let _input = evt.target
+
+        console.log(_input.files)
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            // The file's text will be printed here
+            console.log(e.target.result)
+        };
+
+        //blob 내부적으로 처리
+        reader.readAsText(_input.files[0]);
+    })
+
+    document.querySelector('#fetch input').addEventListener('change',(evt)=> {
+
+        let _textArea = evt.target.parentNode.querySelector('textarea');
+
+        console.log(evt.target)
+
+        let _input = evt.target
+
+        console.log(_input.files)
+
+        console.log(window.URL.createObjectURL(_input.files[0]))
+
+        fetch(window.URL.createObjectURL(_input.files[0]))
+                .then(_=> {
+                    console.log(_)
+                    return _.text()
+                })
+                .then(_=> {
+                    console.log(_)
+                    _textArea.value = _
+                })
+    })
+
+    document.querySelector('#image input').addEventListener('change',(evt)=> {
+        let _img = document.createElement('img')
+        let _input = evt.target
+
+        _img.onload = _=> {
+
+            evt.target.parentNode.appendChild(_img)
+
+        }
+        _img.src = window.URL.createObjectURL(_input.files[0])
+
+
+    })
+
+
+</script>
+
+</body>
+</html>
