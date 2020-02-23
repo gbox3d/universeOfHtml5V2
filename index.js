@@ -6,8 +6,11 @@ function createWindow () {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 1024,
-    height: 768
-  })
+    height: 768,
+    // webPreferences: {
+    //   preload: path.join(__dirname, 'preload.js')
+    // }
+  });
 
   // and load the index.html of the app.
   if(process.argv.length >= 3) {
