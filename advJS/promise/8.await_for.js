@@ -1,5 +1,3 @@
-
-
 function foo(delay) {
 
     return new Promise( (resolve,reject) => {
@@ -24,7 +22,7 @@ async function forEachTest() {
     //     console.log(_res)
     // })
 
-    //비동기 처리를 위해서는 forEach 대신 for of 를 써야한다.
+    //동기식 처리를 위해서는 forEach 대신 for of 를 써야한다.
     for(_ of test) {
         let _res = await foo(_)
         console.log(_res)

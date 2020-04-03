@@ -34,4 +34,14 @@ async function syncTest() {
     console.log('------------start-------------')
     await syncTest() //resolve가 반환 될때까지 기다린다.
     console.log('------------end---------------')
+
+    console.log('sleep 3sec  start')
+    await new Promise((resolve,reject)=> {
+        setTimeout(()=> {
+            resolve()
+        },3000)
+    }) 
+
+    console.log('sleep end')
+
 })();
