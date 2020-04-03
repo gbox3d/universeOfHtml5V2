@@ -30,10 +30,8 @@ async function syncTest() {
 
 }
 
-async function _startApp() {
+(async () => {
     console.log('------------start-------------')
     await syncTest() //resolve가 반환 될때까지 기다린다.
     console.log('------------end---------------')
-}
-
-_startApp();
+})();
