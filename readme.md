@@ -10,6 +10,10 @@ npm run http
 
 localhost:8080/[테스트해볼파일이름]
 
+## 연습용 rest api 
+
+http://redstar001.iptime.org:17390/getTime
+
 
 
   
