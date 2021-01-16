@@ -26,6 +26,7 @@
 
             let _text = await (await fetch('./_1607677728194_all.xml')).text();
 
+            //기본 기능만 가지고 파싱하기 
             const _xml = parser.parseFromString(_text,"application/xml")
             console.log(_xml);
 
