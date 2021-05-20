@@ -14,7 +14,7 @@ import fetch from "node-fetch"
     console.log(_res);
 
 
-    _res = await (await fetch(`http://localhost:8001/rest/get/test`)).json()
+    _res = await (await fetch(`http://localhost:8001/rest/get/test?name=gbox&number=9545`)).json()
     console.log(_res)
 
 

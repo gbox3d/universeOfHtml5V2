@@ -62,7 +62,7 @@ async function process_get(req, res) {
     let _rest_path = urlObj.pathname.substring(5)
 
     switch (_rest_path) {
-        case '/get/hello':
+        case '/get/test':
             res.writeHead(200, header);
             res.end(JSON.stringify({ r: 'ok', msg: `you(${_name}) say hello , number : ${_number}` }));
             break;
