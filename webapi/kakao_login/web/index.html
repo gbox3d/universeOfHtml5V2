@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    
+</head>
+<body>
+
+    <div>
+        <button id='kakao-login' >login</button>
+    </div>
+
+
+    <script>
+
+        document.querySelector('#kakao-login').addEventListener('click',(evt)=> {
+            let _client_id = '42729699e847e0531758a0031b235b56'
+            let _redirect_uri = `http://gears001.iptime.org:20180/rest/login`
+            let _client_secret = 'rna6kMXkqHfcdOfcwM1pn9ieRmv2pmnc'
+            
+            location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${_client_id}&redirect_uri=${_redirect_uri}&client_secret=${_client_secret}`
+
+        });
+        
+    </script>
+    
+</body>
+</html>

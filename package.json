@@ -13,6 +13,7 @@
   "dependencies": {
     "http-server": "^0.12.3",
     "node-fetch": "^2.6.0",
+    "node-static": "^0.7.11",
     "xml-js": "^1.6.11"
   }
 }

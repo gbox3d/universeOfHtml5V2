@@ -1,0 +1,2 @@
+### rest test
+GET https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=3563e633e82abbdd66bc0dade78a384c&redirect_uri=http://gears001.iptime.org:20180/rest/login
