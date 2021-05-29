@@ -12,23 +12,17 @@ import fs from 'fs';
 
 class CCoreApp {
     static version = [1, 0, 0];
-    constructor({ port }) {
+    constructor({server_conf,client_id,client_secret,redirect_uri}) {
 
-        const settings_file = fs.readFileSync('./settings.yaml', 'utf8')
-
-        let _settings = YAML.parse(settings_file)
-
-
-        this.port = port
-        this.fileServer = new (nodeStatic.Server)('./web');
+        this.port = server_conf.port
+        this.fileServer = new (nodeStatic.Server)(server_conf.web_pub);
         // this.api_key = '42729699e847e0531758a0031b235b56'
         // this.client_secret = 'rna6kMXkqHfcdOfcwM1pn9ieRmv2pmnc'
         // this.redirect_uri = 'http://gears001.iptime.org:20180/rest/login'
 
-        this.client_id = _settings.client_id
-        this.client_secret = _settings.client_secret
-        this.redirect_uri = _settings.redirect_uri
-
+        this.client_id = client_id
+        this.client_secret = client_secret
+        this.redirect_uri = redirect_uri
 
         this.httpServer = http.createServer(
             async (req, res) => {
@@ -89,6 +83,19 @@ class CCoreApp {
         };
 
         switch (urlObj.pathname) {
+            case '/rest/getSettings':
+                {
+                    header['Content-Type'] = 'text/plain';
+                    res.writeHead(200, header);
+
+                    let _settings = YAML.parse(fs.readFileSync('./settings.yaml', 'utf8'))
+
+                    res.end(
+                        JSON.stringify({ result: 'ok',content : _settings  })
+                    );
+                }
+
+                break;
             case '/rest/login':
 
                 let _code = urlObj.searchParams.get('code')
@@ -149,9 +156,10 @@ class CCoreApp {
 
 }
 
-let app = new CCoreApp({
-    port: 20180
-});
+// const settings_file = fs.readFileSync('./settings.yaml', 'utf8')
+// let _settings = YAML.parse(fs.readFileSync('./settings.yaml', 'utf8'))
+
+let app = new CCoreApp(YAML.parse(fs.readFileSync('./settings.yaml', 'utf8')));
 
 
 
