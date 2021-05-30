@@ -12,7 +12,7 @@ import fs from 'fs';
 
 class CCoreApp {
     static version = [1, 0, 0];
-    constructor({server_conf,client_id,client_secret,redirect_uri}) {
+    constructor({ server_conf, client_id, client_secret, redirect_address }) {
 
         this.port = server_conf.port
         this.fileServer = new (nodeStatic.Server)(server_conf.web_pub);
@@ -22,7 +22,16 @@ class CCoreApp {
 
         this.client_id = client_id
         this.client_secret = client_secret
-        this.redirect_uri = redirect_uri
+        this.redirect_uri = `http://${redirect_address}:${this.port}/rest/login`
+
+        try {
+            this.login_info = JSON.parse(fs.readFileSync('__login_info.json', 'utf8'))
+        }
+        catch (e) {
+            console.log(e)
+        }
+
+
 
         this.httpServer = http.createServer(
             async (req, res) => {
@@ -91,7 +100,7 @@ class CCoreApp {
                     let _settings = YAML.parse(fs.readFileSync('./settings.yaml', 'utf8'))
 
                     res.end(
-                        JSON.stringify({ result: 'ok',content : _settings  })
+                        JSON.stringify({ result: 'ok', content: _settings })
                     );
                 }
 
@@ -119,13 +128,15 @@ class CCoreApp {
                     }))).json();
 
                     console.log(_res)
+
+                    this.login_info = _res
+
+                    fs.writeFileSync('__login_info.json', JSON.stringify(_res));
+
                 }
                 else {
                     console.log(`err : ${_err_code}`);
                 }
-
-
-
                 // console.log(_res);s
 
                 header['Content-Type'] = 'text/plain';
@@ -136,13 +147,102 @@ class CCoreApp {
                     JSON.stringify({ result: 'ok' })
                 );
                 break;
+            case '/rest/userInfo':
+                {
+                    console.log(this.login_info);
+
+                    let _body = `property_keys=["kakao_account.email"]`
+
+                    let _res = await (await (fetch('https://kapi.kakao.com/v2/user/me', {
+                        method: 'POST',
+                        body: _body,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Authorization': `Bearer ${this.login_info.access_token}`
+                        }
+
+                        // body: `grant_type=authorization_code\r\ncode=${_code}`
+                    }))).json();
+
+                    console.log(_res);
+
+
+                    header['Content-Type'] = 'text/plain';
+
+                    res.writeHead(200, header);
+
+                    res.end(
+                        JSON.stringify({ result: 'ok' })
+                    );
+                }
+                break;
+            case '/rest/logout':
+                {
+                    // let _body = `property_keys=["kakao_account.email"]`
+
+                    let _res = await (await (fetch('https://kapi.kakao.com/v1/user/logout', {
+                        method: 'POST',
+                        // body: _body,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Authorization': `Bearer ${this.login_info.access_token}`
+                        }
+
+                        // body: `grant_type=authorization_code\r\ncode=${_code}`
+                    }))).json();
+
+                    console.log(_res);
+
+                    header['Content-Type'] = 'text/plain';
+
+                    res.writeHead(200, header);
+
+                    res.end(
+                        JSON.stringify({ result: 'ok' })
+                    );
+
+                }
+                break;
+            case '/rest/sendMemo':
+                {
+                    let msg = {
+                        object_type:"text",
+                        text:"Hello, world!",
+                        link:{
+                            web_url:"www.naver.com"
+                        }
+                    };
+
+                    let _body = `template_object=${JSON.stringify(msg)}`
+
+                    let _res = await (await (fetch('https://kapi.kakao.com/v2/api/talk/memo/default/send', {
+                        method: 'POST',
+                        body: _body,
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'Authorization': `Bearer ${this.login_info.access_token}`
+                        }
+                    }))).json();
+
+                    console.log(_res);
+
+                    header['Content-Type'] = 'text/plain';
+
+                    res.writeHead(200, header);
+
+                    res.end(
+                        JSON.stringify({ result: 'ok' })
+                    );
+
+                }
+                break;
 
             default:
                 header['Content-Type'] = 'text/plain';
                 res.writeHead(200, header);
                 res.end(JSON.stringify({
                     result: 'ok',
-                    msg: 'it is http server ' + theApp.version
+                    msg: `kakao login api tutorial ${CCoreApp.version[0]}`
                 }));
                 break;
         }
