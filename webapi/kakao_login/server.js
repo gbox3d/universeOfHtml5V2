@@ -16,10 +16,7 @@ class CCoreApp {
 
         this.port = server_conf.port
         this.fileServer = new (nodeStatic.Server)(server_conf.web_pub);
-        // this.api_key = '42729699e847e0531758a0031b235b56'
-        // this.client_secret = 'rna6kMXkqHfcdOfcwM1pn9ieRmv2pmnc'
-        // this.redirect_uri = 'http://gears001.iptime.org:20180/rest/login'
-
+        
         this.client_id = client_id
         this.client_secret = client_secret
         this.redirect_uri = `http://${redirect_address}:${this.port}/rest/login`
